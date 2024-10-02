@@ -125,7 +125,9 @@ def train(model: torch.nn.Module,
           optimizer: torch.optim.Optimizer,
           loss_fn: torch.nn.Module,
           epochs: int,
-          device: torch.device, summaryWriter=None,summaryWriterModelSampleInputGetter=None) -> Dict[str, List[float]]:
+          device: torch.device, 
+          summaryWriter=None,
+          summaryWriterModelSampleInputGetter=None) -> Dict[str, List[float]]:
   """Trains and tests a PyTorch model.
 
   Passes a target PyTorch models through train_step() and test_step()
@@ -144,6 +146,7 @@ def train(model: torch.nn.Module,
     device: A target device to compute on (e.g. "cuda" or "cpu").
     summaryWriter: A SummaryWriter instance to log metrics to TensorBoard.
     summaryWriterModelSampleInputGetter: ex:torch.randn(32, 3, 224, 224) A function that returns a sample input for the model to be used in the SummaryWriter.
+
   Returns:
     A dictionary of training and testing loss as well as training and
     testing accuracy metrics. Each metric has a value in a list for
