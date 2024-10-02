@@ -125,7 +125,7 @@ def train(model: torch.nn.Module,
           optimizer: torch.optim.Optimizer,
           loss_fn: torch.nn.Module,
           epochs: int,
-          device: torch.device) -> Dict[str, List[float]]:
+          device: torch.device, summaryWriter=None,summaryWriterModelSampleInputGetter=None) -> Dict[str, List[float]]:
   """Trains and tests a PyTorch model.
 
   Passes a target PyTorch models through train_step() and test_step()
@@ -190,6 +190,27 @@ def train(model: torch.nn.Module,
       results["train_acc"].append(train_acc)
       results["test_loss"].append(test_loss)
       results["test_acc"].append(test_acc)
+
+      if summaryWriter:
+
+        # Add accuracy results to SummaryWriter
+        summaryWriter.add_scalars(
+          main_tag="Accuracy",
+          tag_scalar_dict={
+            "train_acc": train_acc,
+            "test_acc": test_acc
+          }, 
+          global_step=epoch)
+
+         # Track the PyTorch model architecture
+        summaryWriter.add_graph(model=model, 
+                         # Pass in an example input
+                         input_to_model=summaryWriterModelSampleInputGetter().to(device))
+        
+
+
+  if summaryWriter:
+    summaryWriter.close()
 
   # Return the filled results at the end of the epochs
   return results
