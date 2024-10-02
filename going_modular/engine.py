@@ -142,7 +142,8 @@ def train(model: torch.nn.Module,
     loss_fn: A PyTorch loss function to calculate loss on both datasets.
     epochs: An integer indicating how many epochs to train for.
     device: A target device to compute on (e.g. "cuda" or "cpu").
-
+    summaryWriter: A SummaryWriter instance to log metrics to TensorBoard.
+    summaryWriterModelSampleInputGetter: ex:torch.randn(32, 3, 224, 224) A function that returns a sample input for the model to be used in the SummaryWriter.
   Returns:
     A dictionary of training and testing loss as well as training and
     testing accuracy metrics. Each metric has a value in a list for
