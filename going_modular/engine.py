@@ -197,24 +197,23 @@ def train(model: torch.nn.Module,
 
       if summaryWriter:
 
-        # Add accuracy results to SummaryWriter
-        summaryWriter.add_scalars(
-          main_tag="Accuracy",
-          tag_scalar_dict={
-            "train_acc": train_acc,
-            "test_acc": test_acc
-          }, 
-          global_step=epoch)
+        # Add results to SummaryWriter
+        summaryWriter.add_scalars(main_tag="Loss", 
+                            tag_scalar_dict={"train_loss": train_loss,
+                                            "test_loss": test_loss},
+                            global_step=epoch)
+
+        summaryWriter.add_scalars(main_tag="Accuracy", 
+                            tag_scalar_dict={"train_acc": train_acc,
+                                            "test_acc": test_acc}, 
+                            global_step=epoch)
 
          # Track the PyTorch model architecture
         summaryWriter.add_graph(model=model, 
                          # Pass in an example input
                          input_to_model=summaryWriterModelSampleInputGetter().to(device))
         
-
-
-  if summaryWriter:
-    summaryWriter.close()
+        summaryWriter.close()
 
   # Return the filled results at the end of the epochs
   return results
